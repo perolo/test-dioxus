@@ -2,6 +2,7 @@
 
 use dioxus::prelude::*;
 use log::LevelFilter;
+//use dioxus_elements::textfield::TextField;
 
 fn main() {
     // Init debug
@@ -10,23 +11,44 @@ fn main() {
     launch(App);
 }
 
+
+
 fn App() -> Element {
     // Build cool things ✌️
+    //let mut sometext = "New".to_string();
 
     rsx! {
         link { rel: "stylesheet", href: "main.css" }
         img { src: "header.svg", id: "header" }
-        div { id: "links",
-            a { href: "https://dioxuslabs.com/learn/0.5/", "📚 Learn Dioxus" }
-            a { href: "https://dioxuslabs.com/awesome", "🚀 Awesome Dioxus" }
-            a { href: "https://github.com/dioxus-community/", "📡 Community Libraries" }
-            a { href: "https://github.com/DioxusLabs/dioxus-std", "⚙️ Dioxus Standard Library" }
-            a { href: "https://marketplace.visualstudio.com/items?itemName=DioxusLabs.dioxus",
-                "💫 VSCode Extension"
-            }
-            a { href: "https://discord.gg/XgGxMSkvUM", "👋 Community Discord" }
-        }
+                div { id: "links",
+                    a { href: "https://dioxuslabs.com/learn/0.5/", "📚 Learn Dioxus" }
+                    a { href: "https://dioxuslabs.com/awesome", "🚀 Awesome Dioxus" }
+                    a { href: "https://github.com/dioxus-community/", "📡 Community Libraries" }
+                    a { href: "https://github.com/DioxusLabs/dioxus-std", "⚙️ Dioxus Standard Library" }
+                    a { href: "https://marketplace.visualstudio.com/items?itemName=DioxusLabs.dioxus",
+                        "💫 VSCode Extension"
+                    }
+                    a { href: "https://discord.gg/XgGxMSkvUM", "👋 Community Discord" }
+
+                    //textfield { value: sometext }
+                }
+                div {id: "links",
+                    
+                    button {
+                        onclick: move |_| handleButtonClick(),
+                        "Click me!"
+                    }
+            
+                }
     }
+}
+
+fn handleButtonClick() {
+    // Handle button click event
+    println!("Button clicked!");
+    log::info!("Button clicked!");
+    //dioxus_logger .info("Button clicked!");
+    //sometext = "Clicked".to_string();
 }
 
 
