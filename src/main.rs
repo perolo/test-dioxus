@@ -43,10 +43,21 @@ fn App() -> Element {
     }
 }
 
-fn handleButtonClick() {
+async fn handleButtonClick(){
     // Handle button click event
     println!("Button clicked!");
     log::info!("Button clicked!");
+    match get_server_data().await {
+        Ok(data) => {
+            println!("Server response: {}", data);
+            log::info!("Server response: {}", data);
+        }
+        Err(err) => {
+            println!("Server error: {}", err);
+            log::error!("Server error: {}", err);
+        }
+        
+    }
     //dioxus_logger .info("Button clicked!");
     //sometext = "Clicked".to_string();
 }
