@@ -1,5 +1,5 @@
 [package]
-name = "test-wasm"
+name = "test-dioxus"
 version = "0.1.0"
 authors = ["perolo"]
 edition = "2021"
