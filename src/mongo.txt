@@ -1,0 +1,60 @@
+use mongodb::{options::ClientOptions, Client};
+use serde::{Deserialize, Serialize};
+use serde_json::{json, Value as jsonObject};
+
+#[tokio::main]
+async fn main() {
+    println!("Hello, world!");
+
+    // Set up the MongoDB client
+    let client_options = ClientOptions::parse("mongodb://localhost:27017")
+        .await
+        .unwrap();
+    let client = Client::with_options(client_options).unwrap();
+    let database = client.database("Logging");
+
+    let collection2 = database.collection::<MyData>("Test");
+
+    let docs = vec![
+        MyData {
+            timestamp: "1984".to_string(),
+            datatype: "George Orwell".to_string(),
+            r#type: "Book".to_string(),
+            uniqueID: "1".to_string(),
+            json: json!({ "an": "object" }),
+        },
+        MyData {
+            timestamp: "Animal Farm".to_string(),
+            datatype: "George Orwell".to_string(),
+            r#type: "Book".to_string(),
+            uniqueID: "1".to_string(),
+            json: json!({ "an": "object" }),
+        },
+    ];
+    collection2.insert_many(docs, None).await.unwrap();
+
+    let collection = database.collection::<MyData>("2024");
+
+    // Read the first object from the collection
+    if let Ok(result) = collection.find_one(None, None).await {
+        if let Some(document) = result {
+            println!("First object: {:?}", document);
+
+            println!("Datatype: {}", document.datatype);
+        } else {
+            println!("No documents found in the collection.");
+        }
+    } else {
+        println!("Failed to read the first object from the collection.");
+    }
+}
+
+#[allow(non_snake_case)]
+#[derive(Debug, Serialize, Deserialize)]
+struct MyData {
+    timestamp: String,
+    datatype: String,
+    json: jsonObject,
+    uniqueID: String,
+    r#type: String,
+}
